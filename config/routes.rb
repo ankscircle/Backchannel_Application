@@ -1,4 +1,23 @@
 BackchannelApplication::Application.routes.draw do
+  get "session/login"
+
+  get "session/home"
+
+  get "session/profile"
+
+  get "session/setting"
+ # map.connect '/session/login', :controller => 'session', :action => 'login_attempt'
+
+
+     resource :users, :session
+
+  root :to => "session#login"
+  match "signup", :to => "users#new"
+  match "login", :to => "session#login"
+  match "logout", :to => "session#logout"
+  match "home", :to => "session#home"
+  match "profile", :to => "session#profile"
+  match "setting", :to => "session#setting"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,11 +67,11 @@ BackchannelApplication::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+   #root :to => 'Users#index'
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+   match ':controller(/:action(/:id))(.:format)'
 end

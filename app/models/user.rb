@@ -39,7 +39,10 @@ class User < ActiveRecord::Base
   end
 
   def match_password(login_password="")
-    encrypted_password == BCrypt::Engine.hash_secret(login_password)
+    Rails.logger.info('LOGGED FAILED',login_password )
+    encrypted_password ==Digest::SHA1.hexdigest(login_password)
+    Rails.logger.info('LOGGED FAILED',encrypted_password )
+
   end
 end
 

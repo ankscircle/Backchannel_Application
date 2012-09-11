@@ -1,4 +1,8 @@
 BackchannelApplication::Application.routes.draw do
+  resources :homes
+
+  resources :posts
+
   get "session/login"
 
   get "session/home"
@@ -6,19 +10,22 @@ BackchannelApplication::Application.routes.draw do
   get "session/profile"
 
   get "session/setting"
- # map.connect '/session/login', :controller => 'session', :action => 'login_attempt'
+  #map.connect '/session/login', :controller => 'session', :action => 'login_attempt'
 
 
      resource :users, :session
+  match ':controller(/:action(/:id))(.:format)'
 
-  root :to => "session#login"
+ # root :to => 'Users#new'
+
+  root :to => "session#logout"
   match "signup", :to => "users#new"
   match "login", :to => "session#login"
   match "logout", :to => "session#logout"
   match "home", :to => "session#home"
   match "profile", :to => "session#profile"
   match "setting", :to => "session#setting"
-  # The priority is based upon order of creation:
+ # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:
@@ -73,5 +80,4 @@ BackchannelApplication::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-   match ':controller(/:action(/:id))(.:format)'
 end

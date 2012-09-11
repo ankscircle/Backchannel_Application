@@ -18,11 +18,11 @@ BackchannelApplication::Application.routes.draw do
 
  # root :to => 'Users#new'
 
-  root :to => "session#logout"
+  root :to => "homes#index"
   match "signup", :to => "users#new"
   match "login", :to => "session#login"
   match "logout", :to => "session#logout"
-  match "home", :to => "session#home"
+  match "home", :to => "home#index"
   match "profile", :to => "session#profile"
   match "setting", :to => "session#setting"
  # The priority is based upon order of creation:

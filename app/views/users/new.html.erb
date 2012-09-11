@@ -1,4 +1,4 @@
-<h1>New user</h1>
+<h1 xmlns="http://www.w3.org/1999/html">New user</h1>
 <% @page_title = "UserAuth | Signup" %>
 <div class= "Sign_Form">
   <h1>Sign Up</h1>
@@ -12,8 +12,11 @@
 
       <p> Password Confirmation:</br> <%= f.password_field :password_confirmation%> </p>
 
+      <p> Admin: </br> <%= f.check_box :role  %></p>
       <%= f.submit :Signup %>
-  <% end %>
+      <%= render 'form' %>
+
+<% end %>
 
   <% if @user.errors.any? %>
       <ul class="Signup_Errors">

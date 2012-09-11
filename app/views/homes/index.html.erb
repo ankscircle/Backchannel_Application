@@ -1,1 +1,33 @@
-<div id =
+<div id="home">
+  <div id="home_header">
+    <h1 id="logo_text">BACK CHANNEL</h1>
+
+    <div id="links_home">
+      <p> <% if @mode == 'anonymous' %>
+            <%=h link_to "Log In", :controller => 'session', :action => "login" %>
+            <%=h link_to "Sign Up" , :controller => 'users', :action => 'new' %>
+        <% else %>
+
+            <%=h "Welcome #{ User.find(session[:user_id]).username}!" %>
+            <%= link_to "Log out?", :controller => 'session', :action => 'logout' %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <body>
+  <div id="post_div">
+
+  <table>
+    <tr class="row-a">
+      <td class="first">
+        <% form_tag  :action =>'post'  do %>
+            <%= text_field_tag :create_post, params[:create_post] %>
+            <%= submit_tag "Create New Post", :name => nil %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+    </div>
+
+  </body>
+   </div>

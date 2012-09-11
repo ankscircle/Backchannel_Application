@@ -2,82 +2,61 @@ class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
   def index
-    @homes = Home.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @homes }
+    if !session[:user_id]                           # if there is no user
+      @mode = "anonymous"                               # default the user mode to the 'a nobody' case
+      @user = nil
+    else                                             # if there is a user
+      @mode = User.find(session[:user_id]).role    # find his role and make it available to the view
+      @user = User.find(session[:user_id]).username
+                                                     #puts "mode: #{@mode}"
     end
+
+    # base which posts are displayed by what the user searches (or doesn't search) for
+
   end
 
+  def post
+    # the html checks for the user, but we double check here
+    unless !session[:user_id]
+      puts ":user_id #{User.find(session[:user_id]).username}, :content => #{params[:create_post]}"
+      # create a new post using the users information: because he entered it in the post box, their is no parent
+      new_post = Post.new(:user_id => User.find(session[:user_id]).username, :content => params[:create_post])
+      new_post.save
+    end
+    redirect_to :action => 'index'
+  end
   # GET /homes/1
   # GET /homes/1.json
   def show
-    @home = Home.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @home }
-    end
   end
 
   # GET /homes/new
   # GET /homes/new.json
   def new
-    @home = Home.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @home }
-    end
   end
 
   # GET /homes/1/edit
   def edit
-    @home = Home.find(params[:id])
   end
 
   # POST /homes
   # POST /homes.json
   def create
-    @home = Home.new(params[:home])
 
-    respond_to do |format|
-      if @home.save
-        format.html { redirect_to @home, notice: 'Home was successfully created.' }
-        format.json { render json: @home, status: :created, location: @home }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @home.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PUT /homes/1
   # PUT /homes/1.json
   def update
-    @home = Home.find(params[:id])
 
-    respond_to do |format|
-      if @home.update_attributes(params[:home])
-        format.html { redirect_to @home, notice: 'Home was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @home.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # DELETE /homes/1
   # DELETE /homes/1.json
   def destroy
-    @home = Home.find(params[:id])
-    @home.destroy
 
-    respond_to do |format|
-      format.html { redirect_to homes_url }
-      format.json { head :ok }
-    end
   end
-end
+  end
+

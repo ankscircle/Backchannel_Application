@@ -7,11 +7,13 @@ class SessionController < ApplicationController
   end
   def login_attempt
     authorized_user = User.authenticate(params[:username_or_email],params[:login_password])
+    #flash[:notice] = "Welcome to Backchannel"
+
     if authorized_user
       session[:user_id] = authorized_user.id
       Rails.logger.info('LOGGED IN')
       flash[:notice] = "Wow Welcome again, you logged in as #{authorized_user.username}"
-      redirect_to(:action => 'home')
+      redirect_to :controller => 'home',:action => 'index'
     else
       flash[:notice] = "Invalid Username or Password"
       Rails.logger.info('LOGGED FAILED')

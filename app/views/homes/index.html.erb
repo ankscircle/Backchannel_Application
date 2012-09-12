@@ -15,15 +15,18 @@
     </div>
   </div>
   <body>
-  <div id="post_div">
 
+
+  <div id="post_div">
   <table>
     <tr class="row-a">
       <td class="first">
-        <% form_tag  :action =>'post'  do %>
-            <%= text_field_tag :create_post, params[:create_post] %>
-            <%= submit_tag "Create New Post", :name => nil %>
-        <% end %>
+
+          <%= form_tag(:controller => 'homes', :action => "post") do %>
+              <%= label_tag(:q, "Post Now") %>
+              <%= text_area_tag(:create_post) %>
+              <%= submit_tag("Create New Post") %>
+          <% end %>
       </td>
     </tr>
   </table>

@@ -22,7 +22,7 @@ BackchannelApplication::Application.routes.draw do
   match "signup", :to => "users#new"
   match "login", :to => "session#login"
   match "logout", :to => "session#logout"
-  match "home", :to => "home#index"
+  match "home", :to => "homes#index"
   match "profile", :to => "session#profile"
   match "setting", :to => "session#setting"
  # The priority is based upon order of creation:

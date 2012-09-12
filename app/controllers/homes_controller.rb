@@ -16,12 +16,15 @@ class HomesController < ApplicationController
   end
 
   def post
+    Rails.logger.info('came to HomeController/post-->action')
     # the html checks for the user, but we double check here
     unless !session[:user_id]
       puts ":user_id #{User.find(session[:user_id]).username}, :content => #{params[:create_post]}"
+      Rails.logger.info('came to HomeController/post-->action')
+
       # create a new post using the users information: because he entered it in the post box, their is no parent
-      new_post = Post.new(:user_id => User.find(session[:user_id]).username, :content => params[:create_post])
-      new_post.save
+      @new_post = Post.new(:user_id => User.find(session[:user_id]).username, :content => params[:create_post])
+      @new_post.save
     end
     redirect_to :action => 'index'
   end

@@ -19,12 +19,12 @@ class SessionController < ApplicationController
       Rails.logger.info('LOGGED FAILED')
 
       flash[:color]= "invalid"
-      render "users/new"
+      redirect_to :controller => 'home',:action => 'index'
     end
   end
   def logout
     session[:user_id] = nil
-    redirect_to :action => 'login'
+    redirect_to :controller => 'home',:action => 'index'
   end
   def home
   end

@@ -43,6 +43,8 @@ class HomesController < ApplicationController
       # create a new post using the users information: because he entered it in the post box, their is no parent
       @new_post = Post.new(:user_id => User.find(session[:user_id]).username, :content => params[:create_post])
       @new_post.save
+      flash[:notice] = "You successfully created a new post"
+      flash[:color]= "valid"
     end
     redirect_to :action => 'index'
   end

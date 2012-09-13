@@ -1,8 +1,9 @@
 <div id="home">
   <div id="home_header">
-    <h1 id="logo_text">BACK CHANNEL</h1>
+    <h1 id="logo_text">BACKCHANNEL APPLICATION</h1>
 
     <div id="links_home">
+      <%= flash[:notice] if flash[:notice]%>
       <p> <% if @mode == 'anonymous' %>
             <%=h link_to "Log In", :controller => 'session', :action => "login" %>
             <%=h link_to "Sign Up" , :controller => 'users', :action => 'new' %>
@@ -13,37 +14,43 @@
         <% end %>
       </p>
     </div>
+    <%= form_tag(:controller => 'homes', :action => "post_create") do %>
+        <%= label_tag(:q, "Search") %>    &nbsp;&nbsp; &nbsp;&nbsp;
+        <%= text_field_tag(:create_post,nil, :size => "50x1" )  %>
+        <%= submit_tag("Search") %>
+    <% end %>
   </div>
-  <body>
 
+
+  <body>
 
   <div id="post_div">
 
-
-
-
-    <table>
-    <tr class="row-a">
-      <td class="first">
+    <table width=100% height =100>
+    <tr class="row-a" width =100%>
+      <td class="first" width =100%>
 
           <%= form_tag(:controller => 'homes', :action => "post_create") do %>
-              <%= label_tag(:q, "Post Now") %>
-              <%= text_area_tag(:create_post) %>
+              <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
+              <%= text_area_tag(:create_post,nil, :size => "50x3" )  %>
               <%= submit_tag("Create New Post") %>
           <% end %>
       </td>
     </tr>
   </table>
     <% @posts_to_display.each{|posts| %>
+
+
         <h2 class="title"><%= link_to posts.user_id, posts %></h2>
-        <p class="byline"><%= posts.created_at.utc.strftime("%d.%m.%Y") %></p>
+        <p><%= posts.content %></p>
+        <p class="byline"><%= time_ago_in_words(posts.created_at)%> ago</p>
         <div class="entry">
           <% if session[:user_id] %>
               <% if posts.user_id ==  User.find(session[:user_id]).username %>
                   <%= h link_to "Edit", :controller => 'posts', :action => 'edit'%>
               <%end%>
           <%end%>
-          <p><%= posts.content %></p>
+
 
         </div>
         <p class="meta"><a href="#" class="more">Vote</a>(x) &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments</a> (33)</p>

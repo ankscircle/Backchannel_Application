@@ -6,8 +6,7 @@ gem 'rake', '0.8.7'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
-
+gem 'will_paginate'
 # Gems used only for assets and not required
 # in production environments by default.
 #group :assets do

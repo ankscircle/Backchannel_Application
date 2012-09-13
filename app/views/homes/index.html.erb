@@ -18,11 +18,15 @@
 
 
   <div id="post_div">
-  <table>
+
+
+
+
+    <table>
     <tr class="row-a">
       <td class="first">
 
-          <%= form_tag(:controller => 'homes', :action => "post") do %>
+          <%= form_tag(:controller => 'homes', :action => "post_create") do %>
               <%= label_tag(:q, "Post Now") %>
               <%= text_area_tag(:create_post) %>
               <%= submit_tag("Create New Post") %>
@@ -30,7 +34,26 @@
       </td>
     </tr>
   </table>
-    </div>
+    <% @posts_to_display.each{|posts| %>
+        <h2 class="title"><%= link_to posts.user_id, posts %></h2>
+        <p class="byline"><%= posts.created_at.utc.strftime("%d.%m.%Y") %></p>
+        <div class="entry">
+          <% if session[:user_id] %>
+              <% if posts.user_id ==  User.find(session[:user_id]).username %>
+                  <%= h link_to "Edit", :controller => 'posts', :action => 'edit'%>
+              <%end%>
+          <%end%>
+          <p><%= posts.content %></p>
+
+        </div>
+        <p class="meta"><a href="#" class="more">Vote</a>(x) &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments</a> (33)</p>
+    <% } %>
+    <%= will_paginate @posts_to_display %>
+
+  </div>
 
   </body>
+  <div id="footer">
+    <p> &copy; 2012 <strong>Backchannel Application</strong> | Design by: Ankita, Deepali and Radhika</p>
+  </div>
    </div>

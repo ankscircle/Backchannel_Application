@@ -1,3 +1,4 @@
+require 'will_paginate/array'
 class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
@@ -8,14 +9,31 @@ class HomesController < ApplicationController
     else                                             # if there is a user
       @mode = User.find(session[:user_id]).role    # find his role and make it available to the view
       @user = User.find(session[:user_id]).username
-                                                     #puts "mode: #{@mode}"
+                                                    #puts "mode: #{@mode}"
     end
+                      # if there is no ':search' value
+    @post_try = Post.get_all_the_posts
+    @posts_to_display = @post_try.paginate(:page =>params[:page],:per_page => 7)
+
+
+    #--fetches 20 records
+    #  @posts_to_display = @posts_to_display.paginate(:page => params[:page], :per_page => 20)
+                                        # else find the ones he wants
+
+
+    #  @threads = Post.find_some_threads(params[:search])
+     # @threads = @threads.paginate(:page => params[:page], :per_page => 20)
+
 
     # base which posts are displayed by what the user searches (or doesn't search) for
 
   end
 
-  def post
+  def posts_to_display
+
+   end
+
+  def post_create
     Rails.logger.info('came to HomeController/post-->action')
     # the html checks for the user, but we double check here
     unless !session[:user_id]

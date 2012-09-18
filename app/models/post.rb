@@ -1,9 +1,10 @@
 class Post < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :user_id, :content             #without this it was calling it protected
+  belongs_to :category
+  attr_accessible :user_id, :content,:category_id             #without this it was calling it protected
   validates :user_id, :presence => true
   validates :content, :presence => true
-
+  validates :category_id, :presence =>true
 
   def self.get_all_the_posts
     # get all the posts (sans replies)
@@ -12,7 +13,7 @@ class Post < ActiveRecord::Base
     post_array = []
     posts.each do |post|
       post_array << post.id
-         end
+    end
 
     p = Post.find(post_array)
     post_to_return = post_array.map{|id| p.detect{|each| each.id == id}}
@@ -22,4 +23,7 @@ class Post < ActiveRecord::Base
   def self.populate_all_posts
     Post.find(:all,:order => "updated_at DESC")
   end
+
+
+
 end

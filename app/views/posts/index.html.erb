@@ -1,21 +1,75 @@
-<h1>Listing posts</h1>
+<%=@posts_from_home.content%>
+<h3>Posted by: <%= @posts_from_home.user_id%>     </h3>
+<h4> Category: <%=Category.find(@posts_from_home.category_id).name %>   </h4>
+  <p class="byline"><%= time_ago_in_words(@posts_from_home.created_at)%> ago</p>
+<% if session[:user_id] %>
+    <% if @posts_from_home.user_id ==  User.find(session[:user_id]).username %>
 
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
-<% @posts.each do |post| %>
-  <tr>
-    <td><%= link_to 'Show', post %></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %></td>
-    <td><%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
+        <% if @edit_post_mode == "1"%>
+                <%= form_tag( :controller => 'posts', :action => 'update_post',:post_id_from_view => @posts_from_home.id ) do %>
+                <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
+                <%= text_area_tag(:edit_post,@posts_from_home.content, :size => "50x3" )  %>
+                <%= select(:category_to_edit,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
+                <%= submit_tag("Edit Post") %>
+                <% end %>
+            <%else%>
+            <%= h link_to "Edit Post", :edit_post => "set",:post_id_from_view => @posts_from_home.id %>
 
-<br />
+        <%end%>
 
-<%= link_to 'New Post', new_post_path %>
+    <%end%>
+
+<%end%>
+<%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
+(<%= Vote.vote_display_post(@posts_from_home.id,User.find(session[:user_id]).username)%>)
+
+
+  <% comments_to_populate(@posts_from_home.id).each{|comments| %>
+    </br></br>
+     <%=comments.comment %>
+    Commented by: <%=User.find_by_id(comments.user_id).username%>
+        <p class="byline"><%= time_ago_in_words(comments.created_at)%> ago</p>
+
+
+    <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
+    (<%=Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%>)
+
+    <% if User.find(comments.user_id).username ==  User.find(session[:user_id]).username %>
+
+        <% if @edit_comment_mode == "1"%>
+        <%= form_tag( :controller => 'posts', :action => 'update_comment',:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id ) do %>
+             &nbsp;&nbsp; &nbsp;&nbsp;
+            <%= text_area_tag(:edit_comment,comments.comment, :size => "50x3" )  %>
+            <%= submit_tag("Edit Comment") %>
+        <% end %>
+             <%else%>
+        <%= h link_to "Edit Comment", :edit_comment => "set",:post_id_from_view => @posts_from_home.id %>
+
+    <%end%>
+        <%end%>
+        <% } %>
+
+
+  <table width=100% height =100>
+    <tr class="row-a" width =100%>
+      <td class="first" width =100%>
+
+        <%= form_tag(:controller => 'posts', :action => "comment_create" ,:postid => @posts_from_home.id) do %>
+            <%= label_tag(:q, "Write a comment") %>    &nbsp;&nbsp; &nbsp;&nbsp;
+            <%= text_area_tag(:create_comment,nil, :size => "50x3" )  %>
+            <%= submit_tag("Create New Comment") %>
+        <%end%>
+      </td>
+    </tr>
+  </table>
+
+
+
+
+  <p class="meta"><a href="#" class="more">Vote</a>(x) &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="more">Delete</a> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments</a> (33)</p>
+
+
+  <br />
+
+  <%= link_to 'Home', :controller => 'homes',:action =>'index' %>

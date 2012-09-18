@@ -33,30 +33,23 @@
           <%= form_tag(:controller => 'homes', :action => "post_create") do %>
               <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
               <%= text_area_tag(:create_post,nil, :size => "50x3" )  %>
-              <%= submit_tag("Create New Post") %>
+            <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
+             <%= submit_tag("Create New Post") %>
           <% end %>
       </td>
     </tr>
   </table>
+
     <% @posts_to_display.each{|posts| %>
 
 
-        <h2 class="title"><%= link_to posts.user_id, posts %></h2>
-        <p><%= posts.content %></p>
-        <p class="byline"><%= time_ago_in_words(posts.created_at)%> ago</p>
-        <div class="entry">
-          <% if session[:user_id] %>
-              <% if posts.user_id ==  User.find(session[:user_id]).username %>
-                  <%= h link_to "Edit", :controller => 'posts', :action => 'edit'%>
-              <%end%>
-          <%end%>
+        <h2 class="title"><%= link_to "Go to Complete post", :controller => 'posts', :action => 'index',:post_id_from_view => posts.id%></h2>
+        <%= posts.content%>
 
-
-        </div>
-        <p class="meta"><a href="#" class="more">Vote</a>(x) &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments</a> (33)</p>
+        <h3>Posted by: <%= posts.user_id%>   </h3>
+          <p class="byline"><%= time_ago_in_words(posts.created_at)%> ago</p>
     <% } %>
     <%= will_paginate @posts_to_display %>
-
   </div>
 
   </body>

@@ -1,4 +1,10 @@
 BackchannelApplication::Application.routes.draw do
+  resources :comments
+
+  resources :votes
+
+  resources :categories
+
   resources :homes
 
   resources :posts
@@ -25,7 +31,9 @@ BackchannelApplication::Application.routes.draw do
   match "home", :to => "homes#index"
   match "profile", :to => "session#profile"
   match "setting", :to => "session#setting"
- # The priority is based upon order of creation:
+  match "update_post", :to => "posts#update_post"
+
+  # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:

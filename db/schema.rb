@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120911173911) do
+ActiveRecord::Schema.define(:version => 20120917211346) do
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.string   "comment"
+    t.string   "post_id"
+    t.string   "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "homes", :force => true do |t|
     t.datetime "created_at"
@@ -21,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20120911173911) do
   create_table "posts", :force => true do |t|
     t.string   "user_id"
     t.string   "content"
+    t.string   "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,6 +45,14 @@ ActiveRecord::Schema.define(:version => 20120911173911) do
     t.string   "email"
     t.string   "encrypted_password"
     t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "votes", :force => true do |t|
+    t.string   "user_id"
+    t.string   "post_flag"
+    t.string   "pc_vote_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

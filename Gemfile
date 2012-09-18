@@ -7,7 +7,7 @@ gem 'rake', '0.8.7'
 
 gem 'sqlite3'
 gem 'will_paginate'
-gem 'debugger', group: [:development, :test]
+#gem 'debugger', group: [:development, :test]
 # Gems used only for assets and not required
 # in production environments by default.
 #group :assets do

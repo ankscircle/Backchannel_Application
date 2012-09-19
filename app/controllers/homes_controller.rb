@@ -1,4 +1,3 @@
-require 'will_paginate/array'
 class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
@@ -21,9 +20,8 @@ class HomesController < ApplicationController
 #@new_category1 = Category.new(:name => "Science")
 #@new_category1.save
 
-      @post_try = Post.get_all_the_posts
-      @posts_to_display = @post_try.paginate(:page =>params[:page],:per_page => 7)
-      @categories_to_populate = Category.all
+    @posts_to_display = Post.get_all_the_posts
+    @categories_to_populate = Category.all
 
 
   end
@@ -31,8 +29,7 @@ class HomesController < ApplicationController
   def search_post
     Rails.logger.info("Searching....")
     @posts_to_display1 = Post.search_all_post(params[:search])
-    posts_with_complete_tuple = Post.find(@posts_to_display1)
-    @posts_to_display = posts_with_complete_tuple.paginate(:page =>params[:page],:per_page => 7)
+   @posts_to_display = Post.find(@posts_to_display1)
     render :action => 'index'
 end
 

@@ -1,4 +1,6 @@
 BackchannelApplication::Application.routes.draw do
+  resources :admins
+
   resources :comments
 
   resources :votes

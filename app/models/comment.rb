@@ -18,4 +18,11 @@ class Comment < ActiveRecord::Base
     Vote.delete_votes_related_to_an_id("0",comment_id_for_delete)
     (Comment.find_by_id(comment_id_for_delete)).destroy
   end
+
+  def self.del_comments_by_user(id_user_for_comments)
+    comments_of_user = Comment.where(:user_id => id_user_for_comments)
+    comments_of_user.each{|usr_comm|
+    usr_comm.destroy
+    }
+  end
 end

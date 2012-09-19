@@ -1,0 +1,21 @@
+<%=h "Welcome #{ User.find(session[:user_id]).username}!" %>
+<h1>Listing All the Users</h1>
+<%= link_to "List All Users", :controller => 'users', :action => 'index' %>
+
+<% @list_users.each {|user| %>
+    <%=user.username %>
+    <%=user.email %>
+    <%=user.encrypted_password %>
+    <td><%= link_to "destroy user", :user_deleted => user.id, :destroy_user => "1" %></td>
+    <td><%= link_to "assign role", :assign_role_user => user.id,:assign_role => "1" %></td>
+    <td><%= link_to "revoke role", :revoke_role_user => user.id,:revoke_role => "1" %></td>
+    <p class="byline"><%= nil %> </p>
+<% } %>
+<p class="byline"><%= nil %> </p>
+
+
+<%= link_to "Navigate to Category", :controller => 'categories', :action => 'index' %>
+
+
+
+

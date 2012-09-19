@@ -12,11 +12,11 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true #password_confirmation attr
   validates_length_of :password, :in => 6..20, :on => :create
 
-  attr_accessible :username, :email, :password, :password_confirmation , :role
+  attr_accessible :username, :email, :password, :password_confirmation , :role,:encrypted_password
 
   def encrypt_password
     if password.present?
-      encrypted_password= Digest::SHA1.hexdigest(password)
+      self.encrypted_password = password
     end
   end
 
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
 
   def match_password(login_password="")
     Rails.logger.info('LOGGED FAILED',login_password )
-    encrypted_password ==Digest::SHA1.hexdigest(login_password)
+    self.encrypted_password ==login_password
     Rails.logger.info('LOGGED FAILED',encrypted_password )
 
   end

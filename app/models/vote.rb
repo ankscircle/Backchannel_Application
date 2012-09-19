@@ -54,26 +54,30 @@ class Vote < ActiveRecord::Base
     @return_string
   end
   def self.check_if_user_already_voted(username_from_view, post_id_to_check_vote)
-   @voted_post_for_new  = 1
-   @vote_list =  Vote.where(:post_flag => "1",:pc_vote_id => post_id_to_check_vote)
-    @vote_list.each{|vote_part| @voted_post_for_new = 0 if User.find(vote_part.user_id).username == username_from_view }
-   @voted_post_for_new
+   voted_post_for_new  = 1
+   vote_list =  Vote.where(:post_flag => "1",:pc_vote_id => post_id_to_check_vote)
+    vote_list.each{|vote_part| voted_post_for_new = 0 if User.find(vote_part.user_id).username == username_from_view }
+   voted_post_for_new
   end
   def self.check_if_user_already_voted_for_comment(username_from_view, comment_id_to_check_vote)
-    @voted_for_comment_for_new  = 1
-    @vote_list =  Vote.where(:post_flag => "0",:pc_vote_id =>comment_id_to_check_vote)
-    @vote_list.each{|vote_part| @voted_for_comment_for_new = 0 if User.find(vote_part.user_id).username == username_from_view }
-    @voted_for_comment_for_new
+    voted_for_comment_for_new  = 1
+    vote_list =  Vote.where(:post_flag => "0",:pc_vote_id =>comment_id_to_check_vote)
+    vote_list.each{|vote_part| voted_for_comment_for_new = 0 if User.find(vote_part.user_id).username == username_from_view }
+    voted_for_comment_for_new
   end
 
   def self.delete_votes_related_to_an_id(id_type_from_view, id_from_controller_to_delete)
-    @vote_listing =  Vote.where(:post_flag => id_type_from_view,:pc_vote_id =>id_from_controller_to_delete)
-    @vote_listing.each{
+    vote_listing =  Vote.where(:post_flag => id_type_from_view,:pc_vote_id =>id_from_controller_to_delete)
+    vote_listing.each{
         |del_vote|
       del_vote.destroy
     }
-
-
+  end
+  def self.delete_votes_by_a_user(id_of_user_to_be_deleted)
+        vote_listing_for_user = Vote.where(:user_id => id_of_user_to_be_deleted)
+    vote_listing_for_user.each{|usr_vote|
+      usr_vote.destroy
+    }
   end
 end
 

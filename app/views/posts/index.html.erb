@@ -16,14 +16,17 @@
             <%else%>
             <%= h link_to "Edit Post", :edit_post => "set",:post_id_from_view => @posts_from_home.id %>
 
-            <%= h link_to "Delete Post",:delete_post => "delete_post",:post_id_from_view => @posts_from_home.id%>
         <%end%>
 
     <%end%>
+    <% if session[:user_id] %>
 
+        <% if @posts_from_home.user_id==session[:user_id].to_s  || User.find(session[:user_id]).role == "1" %>
+             <%= h link_to "Delete Post",:delete_post => "delete_post",:post_id_from_view => @posts_from_home.id%>
+            <%end%>
+    <%end%>
 
-
-<%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
+    <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
 <script type="text/javascript">
     function newPopupPost(){
         var alertText = '<%= ( Vote.user_display_post(@posts_from_home.id)) %>';
@@ -52,7 +55,7 @@
 
         <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
     <a href="JavaScript:newPopup();"><%= Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%></a>
-    <% if comments.user_id ==  session[:user_id].to_s %>
+    <% if comments.user_id ==  session[:user_id].to_s%>
 
         <% if @edit_comment_mode == "1"%>
         <%= form_tag( :controller => 'posts', :action => 'update_comment',:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id ) do %>
@@ -64,10 +67,14 @@
         <%= h link_to "Edit Comment", :edit_comment => "set",:post_id_from_view => @posts_from_home.id %>
 
         <%end%>
-        <%= h link_to "Delete Comment",:delete_comment => "delete_comment",:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id %>
 
+        <%end%>
     <%end%>
-    <%end%>
+    <% if session[:user_id] %>
+        <% if comments.user_id ==  session[:user_id].to_s ||  User.find(session[:user_id]).role == "1" %>
+        <%= h link_to "Delete Comment",:delete_comment => "delete_comment",:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id %>
+       <%end%>
+        <%end%>
 
 <% } %>
 

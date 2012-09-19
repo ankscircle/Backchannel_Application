@@ -13,6 +13,7 @@
         <% end %>
       </p>
     </div>
+
     <%= form_tag(:controller => 'homes', :action => "search_post") do %>
         <%= label_tag(:q, "Search") %>    &nbsp;&nbsp; &nbsp;&nbsp;
         <%= text_field_tag(:search, nil , :size => "50x1" )  %>
@@ -33,7 +34,7 @@
       <%= form_tag(:controller => 'homes', :action => "post_create") do %>
               <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
               <%= text_area_tag(:create_post,nil, :size => "50x3" )  %>
-            <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
+                Category  <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
              <%= submit_tag("Create New Post") %>
           <% end %>
             <%end  %>
@@ -48,9 +49,16 @@
         <h3>Posted by: <%= User.find(posts.user_id).username%>   </h3>
           <p class="byline"><%= time_ago_in_words(posts.created_at)%> ago</p>
     <% } %>
-    <%= will_paginate @posts_to_display %>
   </div>
-
+  <div id="admin_interface">
+    <%= flash[:notice] if flash[:notice]%>
+    <p> <% if @mode == "1" %>
+          <%=h link_to "Go to Admin Interface", :controller => 'admins', :action => 'index' %>
+      <% else %>
+          <%=h "Login as admin to navigate to Admin Interface" %>
+      <% end %>
+    </p>
+  </div>
   </body>
   <div id="footer">
     <p> &copy; 2012 <strong>Backchannel Application</strong> | Design by: Ankita, Deepali and Radhika</p>

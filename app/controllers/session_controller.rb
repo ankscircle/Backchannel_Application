@@ -13,6 +13,12 @@ class SessionController < ApplicationController
       session[:user_id] = authorized_user.id
       Rails.logger.info('LOGGED IN')
       flash[:notice] = "Wow Welcome again, you logged in as #{authorized_user.username}"
+      if authorized_user.role
+        @admin_interface = authorized_user.role
+      else
+        @admin_interface = nil
+
+      end
       redirect_to :controller => 'home',:action => 'index'
     else
       flash[:notice] = "Invalid Username or Password"

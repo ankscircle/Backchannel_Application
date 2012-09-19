@@ -31,7 +31,8 @@ class HomesController < ApplicationController
   def search_post
     Rails.logger.info("Searching....")
     @posts_to_display1 = Post.search_all_post(params[:search])
-    @posts_to_display = @posts_to_display1.paginate(:page =>params[:page],:per_page => 7)
+    posts_with_complete_tuple = Post.find(@posts_to_display1)
+    @posts_to_display = posts_with_complete_tuple.paginate(:page =>params[:page],:per_page => 7)
     render :action => 'index'
 end
 

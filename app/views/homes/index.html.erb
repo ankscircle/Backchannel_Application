@@ -1,10 +1,9 @@
 <div id="home">
   <div id="home_header">
     <h1 id="logo_text">BACKCHANNEL APPLICATION</h1>
-
     <div id="links_home">
       <%= flash[:notice] if flash[:notice]%>
-      <p> <% if @mode == 'anonymous' %>
+      <p> <% if !session[:user_id] %>
             <%=h link_to "Log In", :controller => 'session', :action => "login" %>
             <%=h link_to "Sign Up" , :controller => 'users', :action => 'new' %>
         <% else %>
@@ -29,20 +28,20 @@
     <table width=100% height =100>
     <tr class="row-a" width =100%>
       <td class="first" width =100%>
+        <% if session[:user_id] %>
 
-          <%= form_tag(:controller => 'homes', :action => "post_create") do %>
+      <%= form_tag(:controller => 'homes', :action => "post_create") do %>
               <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
               <%= text_area_tag(:create_post,nil, :size => "50x3" )  %>
             <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
              <%= submit_tag("Create New Post") %>
           <% end %>
+            <%end  %>
       </td>
     </tr>
   </table>
 
     <% @posts_to_display.each{|posts| %>
-
-
         <h2 class="title"><%= link_to "Go to Complete post", :controller => 'posts', :action => 'index',:post_id_from_view => posts.id%></h2>
         <%= posts.content%>
 

@@ -63,8 +63,6 @@ class Post < ActiveRecord::Base
     }
 
 
-    posts_with_complete_tuple = Post.find(array_posts)
-    Rails.logger.info(posts_with_complete_tuple)
-    posts_with_search_condition_applied
+    array_posts
   end
 end

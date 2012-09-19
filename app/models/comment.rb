@@ -13,4 +13,9 @@ class Comment < ActiveRecord::Base
     c
     #comment_to_return = comment_array.map{|id| c1.detect{|each| each.post_id == post_id_from_view}}
   end
+
+  def self.delete_comments_when_id_given(comment_id_for_delete)
+    Vote.delete_votes_related_to_an_id("0",comment_id_for_delete)
+    (Comment.find_by_id(comment_id_for_delete)).destroy
+  end
 end

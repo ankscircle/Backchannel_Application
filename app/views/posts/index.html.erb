@@ -1,12 +1,12 @@
+<h2> <%= link_to 'Home', :controller => 'homes',:action =>'index' %></h2>
 <%=@posts_from_home.content%>
-<h3>Posted by: <%= @posts_from_home.user_id%>     </h3>
+<h3>Posted by: <%= User.find(@posts_from_home.user_id).username%>     </h3>
 <h4> Category: <%=Category.find(@posts_from_home.category_id).name %>   </h4>
   <p class="byline"><%= time_ago_in_words(@posts_from_home.created_at)%> ago</p>
 <% if session[:user_id] %>
-    <% if @posts_from_home.user_id ==  User.find(session[:user_id]).username %>
+    <% if @posts_from_home.user_id==session[:user_id].to_s %>
 
-
-        <% if @edit_post_mode == "1"%>
+            <% if @edit_post_mode == "1"%>
                 <%= form_tag( :controller => 'posts', :action => 'update_post',:post_id_from_view => @posts_from_home.id ) do %>
                 <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
                 <%= text_area_tag(:edit_post,@posts_from_home.content, :size => "50x3" )  %>
@@ -16,13 +16,21 @@
             <%else%>
             <%= h link_to "Edit Post", :edit_post => "set",:post_id_from_view => @posts_from_home.id %>
 
+            <%= h link_to "Delete Post",:delete_post => "delete_post",:post_id_from_view => @posts_from_home.id%>
         <%end%>
 
     <%end%>
 
 <%end%>
 <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
-(<%= Vote.vote_display_post(@posts_from_home.id,User.find(session[:user_id]).username)%>)
+<script type="text/javascript">
+    function newPopupPost(){
+        var alertText = '<%= ( Vote.user_display_post(@posts_from_home.id)) %>';
+        if(alertText.length > 0){
+            alert(alertText);
+        }
+    }
+</script><a href="JavaScript:newPopupPost();"><%= Vote.vote_display_post(@posts_from_home.id,User.find(session[:user_id]).username)%></a>
 
 
   <% comments_to_populate(@posts_from_home.id).each{|comments| %>
@@ -31,11 +39,18 @@
     Commented by: <%=User.find_by_id(comments.user_id).username%>
         <p class="byline"><%= time_ago_in_words(comments.created_at)%> ago</p>
 
+    <script type="text/javascript">
+                function newPopup(){
+            var alertText = '<%= ( Vote.user_display_comment(comments.id)) %>';
+            if(alertText.length > 0){
+                alert(alertText);
+            }
+        }
+    </script>
 
     <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
-    (<%=Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%>)
-
-    <% if User.find(comments.user_id).username ==  User.find(session[:user_id]).username %>
+    <a href="JavaScript:newPopup();"><%= Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%></a>
+    <% if comments.user_id ==  session[:user_id].to_s %>
 
         <% if @edit_comment_mode == "1"%>
         <%= form_tag( :controller => 'posts', :action => 'update_comment',:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id ) do %>
@@ -46,8 +61,10 @@
              <%else%>
         <%= h link_to "Edit Comment", :edit_comment => "set",:post_id_from_view => @posts_from_home.id %>
 
-    <%end%>
         <%end%>
+        <%= h link_to "Delete Comment",:delete_comment => "delete_comment",:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id %>
+
+    <%end%>
         <% } %>
 
 
@@ -63,13 +80,5 @@
       </td>
     </tr>
   </table>
-
-
-
-
-  <p class="meta"><a href="#" class="more">Vote</a>(x) &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="more">Delete</a> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments</a> (33)</p>
-
-
   <br />
 
-  <%= link_to 'Home', :controller => 'homes',:action =>'index' %>

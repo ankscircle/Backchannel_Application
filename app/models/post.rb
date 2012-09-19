@@ -24,6 +24,47 @@ class Post < ActiveRecord::Base
     Post.find(:all,:order => "updated_at DESC")
   end
 
+  def self.modified_post(post_id_for_modification)
+    pst = Post.find_by_id(post_id_for_modification)
+    pst.updated_at = Time.now
+    pst.save
+  end
+
+  def self.delete_post_when_id_given(post_id_from_controller)
+    @comments_to_delete = Comment.where(:post_id => post_id_from_controller)
+    @comments_to_delete.each{|del|
+    Comment.delete_comments_when_id_given(del.id)
+    }
+    Vote.delete_votes_related_to_an_id("1",post_id_from_controller)
+    (Post.find_by_id(post_id_from_controller)).destroy
+  end
+
+  def self.search_all_post(search_text)
+    array_posts = []
+    posts_with_the_given_keyword  = "%" + search_text +"%"
+    posts_with_search_condition_applied = Post.find(:all, :conditions => ['content LIKE ?',posts_with_the_given_keyword])
+
+    posts_with_search_condition_applied.each{|e|
+      array_posts << e.id
+    }
+    users_with_search_conditions_applied = User.find(:all, :conditions => ['username LIKE ?',posts_with_the_given_keyword])
+    users_with_search_conditions_applied.each{|user|
+      get_all_postings = Post.find(:all, :conditions => ['user_id LIKE ?',user.id])
+      get_all_postings.each{|addthis|
+      array_posts << addthis.id
+      }
+     }
+    category_with_search_conditions_applied = Category.find(:all, :conditions => ['name LIKE ?',posts_with_the_given_keyword])
+    category_with_search_conditions_applied.each{|cate|
+      get_all_postings = Post.find(:all, :conditions => ['category_id LIKE ?',cate.id])
+      get_all_postings.each{|addthis|
+        array_posts << addthis.id
+      }
+    }
 
 
+    posts_with_complete_tuple = Post.find(array_posts)
+    Rails.logger.info(posts_with_complete_tuple)
+    posts_with_search_condition_applied
+  end
 end

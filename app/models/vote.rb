@@ -39,7 +39,20 @@ class Vote < ActiveRecord::Base
     end
     @return_string
   end
-
+  def self.user_display_comment(comment_id_for_votes)
+    @voted_comment  = 1
+    @return_string = ""
+    @vote_list =  Vote.where(:post_flag => "0",:pc_vote_id =>comment_id_for_votes)
+     @vote_list.each{|v| @return_string << '\n' << (User.find(v.user_id)).username}
+    @return_string
+  end
+  def self.user_display_post(post_id_for_votes)
+    @voted_post  = 1
+    @return_string = ""
+    @vote_list =  Vote.where(:post_flag => "1",:pc_vote_id =>post_id_for_votes)
+    @vote_list.each{|v| @return_string << '\n' << User.find((Post.find(post_id_for_votes)).user_id).username}
+    @return_string
+  end
   def self.check_if_user_already_voted(username_from_view, post_id_to_check_vote)
    @voted_post_for_new  = 1
    @vote_list =  Vote.where(:post_flag => "1",:pc_vote_id => post_id_to_check_vote)
@@ -53,6 +66,15 @@ class Vote < ActiveRecord::Base
     @voted_for_comment_for_new
   end
 
+  def self.delete_votes_related_to_an_id(id_type_from_view, id_from_controller_to_delete)
+    @vote_listing =  Vote.where(:post_flag => id_type_from_view,:pc_vote_id =>id_from_controller_to_delete)
+    @vote_listing.each{
+        |del_vote|
+      del_vote.destroy
+    }
+
+
+  end
 end
 
 

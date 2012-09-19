@@ -9,6 +9,7 @@ BackchannelApplication::Application.routes.draw do
 
   resources :posts
 
+
   get "session/login"
 
   get "session/home"
@@ -31,7 +32,6 @@ BackchannelApplication::Application.routes.draw do
   match "home", :to => "homes#index"
   match "profile", :to => "session#profile"
   match "setting", :to => "session#setting"
-  match "update_post", :to => "posts#update_post"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

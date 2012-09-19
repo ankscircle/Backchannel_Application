@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
-  helper_method :update_post
+  helper_method :delete_post
 
   def index
     @edit_post_mode = "0"
@@ -19,13 +19,18 @@ class PostsController < ApplicationController
     if(params[:edit_comment]=="set")
       @edit_comment_mode    ="1"
     end
+    if(params[:delete_post]=="delete_post")
+      self.delete_post
+    end
+    if(params[:delete_comment]=="delete_comment")
+      self.delete_comment
+    end
   end
 
 
 
    def update_post
-     Rails.logger.info('Update Post')
-    Rails.logger.info(@edit_post_mode)
+      Post.modified_post(params[:post_id_from_view])
      pst = Post.find(params[:post_id_from_view])
      pst.content = params[:edit_post]
      pst.category_id = params[:category_to_edit][0]
@@ -33,8 +38,9 @@ class PostsController < ApplicationController
      redirect_to :action => 'index',:post_id_from_view =>params[:post_id_from_view]
 
    end
-  def update_comment
 
+  def update_comment
+    Post.modified_post(params[:post_id_from_view])
     pst = Comment.find(params[:comment_id_from_view])
     pst.comment = params[:edit_comment]
     pst.save # is this save performing a update or insert?
@@ -50,6 +56,7 @@ class PostsController < ApplicationController
     # create a new comment using the post information
     @new_comment = Comment.new(:comment=> params[:create_comment],:post_id => Post.find(params[:postid]),:user_id => User.find(session[:user_id]).id)
     @new_comment.save
+    Post.modified_post(params[:postid])
     flash[:notice] = "You successfully created a new comment"
     flash[:color]= "valid"
 
@@ -66,9 +73,10 @@ class PostsController < ApplicationController
 
   def vote_post
     Rails.logger.info('Came to create new vote')
-    if(Post.find(params[:post_id_from_view]).user_id !=(User.find(session[:user_id])).username )
+    if(Post.find(params[:post_id_from_view]).user_id !=(User.find(session[:user_id])).id )
       if(Vote.check_if_user_already_voted((User.find(session[:user_id])).username, params[:post_id_from_view])== 1)
-      @new_vote = Vote.new(:pc_vote_id =>params[:post_id_from_view],:post_flag =>"1", :user_id => session[:user_id])
+        Post.modified_post(params[:post_id_from_view])
+        @new_vote = Vote.new(:pc_vote_id =>params[:post_id_from_view],:post_flag =>"1", :user_id => session[:user_id])
       @new_vote.save
       end
       end
@@ -79,6 +87,7 @@ class PostsController < ApplicationController
     Rails.logger.info('Came to create new vote')
     if(User.find((Comment.find(params[:comment_id_for_new])).user_id).username !=(User.find(session[:user_id])).username )
       if(Vote.check_if_user_already_voted_for_comment((User.find(session[:user_id])).username, params[:comment_id_for_new])== 1)
+        Post.modified_post(params[:post_id_from_view])
         @new_vote = Vote.new(:pc_vote_id =>params[:comment_id_for_new],:post_flag =>"0", :user_id => (User.find(session[:user_id])).id)
     @new_vote.save
         end
@@ -86,6 +95,15 @@ class PostsController < ApplicationController
   end
   # DELETE /posts/1
   # DELETE /posts/1.json
+  def delete_post
+    Rails.logger.info('delete post')
+    Post.delete_post_when_id_given((Post.find(params[:post_id_from_view])).id)
+  redirect_to :controller => 'homes',:action =>'index'
+
+  end
+  def delete_comment
+     Comment.delete_comments_when_id_given(params[:comment_id_from_view])
+  end
   def destroy
     @post = Post.find(params[:id])
     @post.destroy

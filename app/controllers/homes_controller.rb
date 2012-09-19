@@ -2,26 +2,38 @@ require 'will_paginate/array'
 class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
+
   def index
     if !session[:user_id]                           # if there is no user
       @mode = "anonymous"                               # default the user mode to the 'a nobody' case
       @user = nil
-    else                                             # if there is a user
+    else
+
+# if there is a user
       @mode = User.find(session[:user_id]).role    # find his role and make it available to the view
       @user = User.find(session[:user_id]).username
                                                     #puts "mode: #{@mode}"
     end
 
+   # @search_results = "init"
 # @new_category = Category.new(:name => "Sports")
 # @new_category.save
 #@new_category1 = Category.new(:name => "Science")
 #@new_category1.save
-    @categories_to_populate = Category.all
-    @post_try = Post.get_all_the_posts
-    @posts_to_display = @post_try.paginate(:page =>params[:page],:per_page => 7)
+
+      @post_try = Post.get_all_the_posts
+      @posts_to_display = @post_try.paginate(:page =>params[:page],:per_page => 7)
+      @categories_to_populate = Category.all
+
 
   end
 
+  def search_post
+    Rails.logger.info("Searching....")
+    @posts_to_display1 = Post.search_all_post(params[:search])
+    @posts_to_display = @posts_to_display1.paginate(:page =>params[:page],:per_page => 7)
+    render :action => 'index'
+end
 
 
   def post_create
@@ -33,7 +45,7 @@ class HomesController < ApplicationController
       Rails.logger.info(params[:category_to_pass][0])
 
       # create a new post using the users information: because he entered it in the post box, their is no parent
-      @new_post = Post.new(:user_id => User.find(session[:user_id]).username, :content => params[:create_post],:category_id=> params[:category_to_pass][0])
+      @new_post = Post.new(:user_id => User.find(session[:user_id]).id, :content => params[:create_post],:category_id=> params[:category_to_pass][0])
       @new_post.save
       flash[:notice] = "You successfully created a new post"
       flash[:color]= "valid"

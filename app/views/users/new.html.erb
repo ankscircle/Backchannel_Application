@@ -4,16 +4,16 @@
   <h1>Sign Up</h1>
   <%= form_for(:user, :url => {:controller => 'users', :action => 'create'}) do |f| %>
 
-      <p> Username:</br> <%= f.text_field :username%> </p>
+      <p> Username:</br> <%= f.text_field :username, :id => "user"%> </p>
 
-      <p> Email:</br> <%= f.text_field :email%> </p>
+      <p> Email:</br> <%= f.text_field :email, :id => "email"%> </p>
 
-      <p> Password:</br> <%= f.password_field :password%></p>
+      <p> Password:</br> <%= f.password_field :password, :id => "password"%></p>
 
-      <p> Password Confirmation:</br> <%= f.password_field :password_confirmation%> </p>
+      <p> Password Confirmation:</br> <%= f.password_field :password_confirmation, :id => "passwordconf"%> </p>
 
-      <p> Admin: </br> <%= f.check_box :role  %></p>
-      <%= f.submit :Signup %>
+      <p> Admin: </br> <%= f.check_box :role, :id => "role"  %></p>
+      <%= f.submit :Signup, :id => "signup" %>
 
 <% end %>
 

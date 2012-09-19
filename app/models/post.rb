@@ -1,6 +1,8 @@
 class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
+  has_many :comments
+  has_many :votes
   attr_accessible :user_id, :content,:category_id             #without this it was calling it protected
   validates :user_id, :presence => true
   validates :content, :presence => true
@@ -61,8 +63,6 @@ class Post < ActiveRecord::Base
         array_posts << addthis.id
       }
     }
-
-
     array_posts
   end
 end

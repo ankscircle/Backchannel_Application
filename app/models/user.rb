@@ -1,6 +1,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-
+   has_many :votes
+   has_many :posts
   attr_accessor :password
 
   before_save :encrypt_password

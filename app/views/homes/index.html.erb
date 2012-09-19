@@ -9,7 +9,7 @@
         <% else %>
 
             <%=h "Welcome #{ User.find(session[:user_id]).username}!" %>
-            <%= link_to "Log out?", :controller => 'session', :action => 'logout' %>
+            <%= link_to "Logout", :controller => 'session', :action => 'logout' %>
         <% end %>
       </p>
     </div>
@@ -33,9 +33,9 @@
 
       <%= form_tag(:controller => 'homes', :action => "post_create") do %>
               <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
-              <%= text_area_tag(:create_post,nil, :size => "50x3" )  %>
-                Category  <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
-             <%= submit_tag("Create New Post") %>
+              <%= text_area_tag(:create_post, nil,:id => "create_post_new")  %>
+                Category  <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]},{},:id =>'select_category')%>
+             <%= submit_tag("Create New Post",:id=>"create_new_post") %>
           <% end %>
             <%end  %>
       </td>

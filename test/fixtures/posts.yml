@@ -1,11 +1,22 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
+# This models initially had no columns defined.  If you add columns to the
+# models remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+one:
+
+content: MyString
+user: one
+category: two
+
+two:
+ content: MyString
+ user: one
+ category: two
+
+    <% (1 .. 1000).each do |i| %>
+        fix_<%= i %>:
+        content: post<%= i%>
+        <% end %>
+

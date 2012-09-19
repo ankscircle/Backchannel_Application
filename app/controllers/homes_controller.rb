@@ -38,13 +38,13 @@ end
     Rails.logger.info('came to HomeController/post-->action')
     # the html checks for the user, but we double check here
     unless !session[:user_id]
-      puts ":user_id #{User.find(session[:user_id]).username}, :content => #{params[:create_post]}"
+      puts ":user_id #{User.find(session[:user_id]).username}, :content => #{params[:create_post]},:category_id=> #{params[:category_to_pass][0]}"
       Rails.logger.info('Categories:::')
       Rails.logger.info(params[:category_to_pass][0])
 
       # create a new post using the users information: because he entered it in the post box, their is no parent
       @new_post = Post.new(:user_id => User.find(session[:user_id]).id, :content => params[:create_post],:category_id=> params[:category_to_pass][0])
-      @new_post.save
+      puts @new_post.save
       flash[:notice] = "You successfully created a new post"
       flash[:color]= "valid"
     end

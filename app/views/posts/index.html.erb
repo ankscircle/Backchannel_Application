@@ -26,7 +26,7 @@
             <%end%>
     <%end%>
 
-    <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
+    <%=link_to "Vote Post",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
 <script type="text/javascript">
     function newPopupPost(){
         var alertText = '<%= ( Vote.user_display_post(@posts_from_home.id)) %>';
@@ -53,7 +53,7 @@
     </script>
     <% if session[:user_id] %>
 
-        <%=link_to "Vote",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
+        <%=link_to "Vote Comment",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
     <a href="JavaScript:newPopup();"><%= Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%></a>
     <% if comments.user_id ==  session[:user_id].to_s%>
 
@@ -85,8 +85,8 @@
         <% if session[:user_id] %>
       <%= form_tag(:controller => 'posts', :action => "comment_create" ,:postid => @posts_from_home.id) do %>
             <%= label_tag(:q, "Write a comment") %>    &nbsp;&nbsp; &nbsp;&nbsp;
-            <%= text_area_tag(:create_comment,nil, :size => "50x3" )  %>
-            <%= submit_tag("Create New Comment") %>
+            <%= text_area_tag(:create_comment,nil, :size => "50x3", :id=>"create_new_comment" )  %>
+            <%= submit_tag("Create New Comment",:id=>"comment_create") %>
         <%end%>
             <% end %>
       </td>

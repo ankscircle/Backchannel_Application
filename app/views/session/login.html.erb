@@ -1,4 +1,11 @@
-<% @page_title = "UserAuth | Login" -%>
+<%= stylesheet_link_tag "homes" %>
+<%= stylesheet_link_tag "leftlinks" %>
+
+<div align="center" class="divhome" id="home">
+  <div class="link_to_home" id="home_header">
+   <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
+
+    <% @page_title = "UserAuth | Login" -%>
 <div class= "Sign_Form">
   <h1>Log in</h1>
   <%= form_tag(:action => 'login_attempt') do %>
@@ -6,4 +13,6 @@
       <p>Password:</br> <%= password_field_tag(:login_password, nil,:id => "login_pass")%></p>
       <%= submit_tag"Log In",:id => "login" %>
   <% end %>
+</div>
+</div>
 </div>

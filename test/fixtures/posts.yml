@@ -18,5 +18,7 @@ two:
     <% (1 .. 1000).each do |i| %>
         fix_<%= i %>:
         content: post<%= i%>
+        user_id: <%=i%>
+        category_id: <%=i%>
         <% end %>
 

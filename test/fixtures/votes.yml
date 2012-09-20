@@ -17,6 +17,6 @@ two:
 
   <% (1 .. 1000).each do |i| %>
       fix_<%= i %>:
-      post_flag: vote<%= i%>
-      pc_vote_id: vote<%= i%>
+      post_flag: 1
+      pc_vote_id: <%= i%>
       <% end %>

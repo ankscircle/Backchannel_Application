@@ -19,6 +19,10 @@ role: MyString
 <% (1 .. 1000).each do |i| %>
     fix_<%= i %>:
     name: user<%= i%>
+    email: user<%=i%>@gmail.com
+    password: superman123
+    confirmation: superman123
+    role: 1
     <% end %>
 
 

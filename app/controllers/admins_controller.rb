@@ -17,12 +17,24 @@ class AdminsController < ApplicationController
   # GET /admins/1
   # GET /admins/1.json
   def show
-    @admin = Admin.find(params[:id])
+    Rails.logger.info('Comes in show')
+    @post_vote_count =0
+    @comment_vote_count =0
+    usr = User.find(params[:user_show_report])
+    @all_posts_of_usr = Post.where(:user_id => usr.id)
+    @all_posts_of_usr.each{ |post|
+    vote_each_post = Vote.where(:post_flag => "1",:pc_vote_id => post.id)
+     @post_vote_count += vote_each_post.count
+    }
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @admin }
-    end
+    @all_comments_by_usr = Comment.where(:user_id => usr.id)
+    @all_comments_by_usr.each{|cmt|
+    vote_for_each_comment = Vote.where(:post_flag => "0",:pc_vote_id => cmt.id)
+       @comment_vote_count += vote_for_each_comment.count
+    }
+
+
+
   end
 
   # GET /admins/new
@@ -38,8 +50,8 @@ class AdminsController < ApplicationController
 
   # GET /admins/1/edit
   def edit
-    @admin = Admin.find(params[:id])
-  end
+    Rails.logger.info('Comes in edit')
+    end
 
   # POST /admins
   # POST /admins.json

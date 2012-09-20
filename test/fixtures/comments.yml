@@ -12,5 +12,7 @@ two:
 
   <% (1 .. 1000).each do |i| %>
     fix_<%= i %>:
-    name: comment<%= i%>
+    comment: comment<%= i%>
+    post_id: <%=i%>
+    user_id: <%=i%>
     <% end %>

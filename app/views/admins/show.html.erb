@@ -1,5 +1,6 @@
-<p id="notice"><%= notice %></p>
+<h2>Complete Report</h2>
 
-
-<%= link_to 'Edit', edit_admin_path(@admin) %> |
-<%= link_to 'Back', admins_path %>
+ <h4>Number of Posts by User: <%=@all_posts_of_usr.count%></h4>
+<h4>Number of Votes on all User Posts:<%=@post_vote_count%> </h4>
+<h4>Number of Comments by User: <%=@all_comments_by_usr.count%></h4>
+<h4>Number of Votes on all User Comments:<%=@comment_vote_count%> </h4>

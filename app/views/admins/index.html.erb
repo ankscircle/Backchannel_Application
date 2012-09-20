@@ -1,9 +1,8 @@
 <%=h "Welcome #{ User.find(session[:user_id]).username}!" %>
 <h1>Listing All the Users</h1>
-<%= link_to "List All Users", :controller => 'users', :action => 'index' %>
-
+<h3> To View Complete User Report Click Usernames</h3>
 <% @list_users.each {|user| %>
-    <%=user.username %>
+    <%= link_to user.username, :controller => 'admins',:action=>'edit',:user_show_report => user.id%>
     <%=user.email %>
     <%=user.encrypted_password %>
     <td><%= link_to "destroy user", :user_deleted => user.id, :destroy_user => "1" %></td>

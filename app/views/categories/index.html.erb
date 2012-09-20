@@ -1,22 +1,25 @@
-<h1>Listing categories</h1>
+<%= stylesheet_link_tag "homes" %>
+<%= stylesheet_link_tag "leftlinks" %>
 
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div align="center" class="divhome" id="home">
+  <div class="link_to_home" id="home_header">
+    <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
+    <h2 class = "head2s">Listing categories</h2>
 
-  <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.name %></td>
 
-        <td><%= link_to 'Edit', edit_category_path(category) %></td>
-        <td><%= link_to 'Destroy', category, confirm: 'Are you sure?', method: :delete %></td>
-      </tr>
-  <% end %>
-</table>
+    <% @categories.each do |category| %>
 
-<br />
+        <p class = "post_even" text-align-last = "left"><%= category.name %>
+          <br />
+          <%= link_to 'Edit', edit_category_path(category) %>  &nbsp;&nbsp;
+          <%= link_to 'Destroy', category, confirm: 'Are you sure?', method: :delete %>
+        </p>
 
-<%= link_to 'New Category', new_category_path %>
+    <% end %>
+
+
+    <br />
+
+    <%= link_to 'New Category', new_category_path %>
+  </div>
+</div>

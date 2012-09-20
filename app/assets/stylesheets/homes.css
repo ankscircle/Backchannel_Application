@@ -1,4 +1,166 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
+
+<!--
+.divhome
+{
+    border:2px solid;
+    border-color: #4169e1;
+}
+
+.divcomment
+{
+    border:1px solid;
+    border-color: #e12d14;
+    height: 110pt;
+}
+
+.home
+{
+      border: #4169e1;
+      border-width: 10pt;
+}
+.head1
+{
+    color: #4169e1;
+    text-align: center;
+    text-decoration-style: solid;
+    font-family: sans-serif;
+    font-size: 25pt;
+}
+
+.head2
+{
+    color: #4169e1;
+    text-align: left;
+    text-decoration-style: solid;
+    font-family: sans-serif;
+    font-size: 20pt;
+}
+
+.head3
+{
+   color: #000000;
+   text-align: left;
+    font-size: 10pt;
+    font-style: normal;
+}
+
+.post
+{
+
+}
+
+.admin_para
+{
+
+}
+
+.psub
+{
+
+}
+
+.pfooter
+{
+   padding-top: 30pt;
+   font-size: 12pt;
+   color: #00008b;
+}
+
+.welcome_head
+{
+     color: #cc1137;
+     text-align: center;
+     font-size: 17pt;
+     font-family: sans-serif;
+     font-weight: bold;
+     text-decoration: none;
+
+}
+
+.logout_head
+{
+    color: #000000;
+
+    font-style: normal;
+    text-align: right;
+    padding-left: 200pt;
+    font-size: 8pt;
+    font-family: sans-serif;
+}
+
+.link_to_home
+{
+         text-align: center;
+
+}
+
+.search
+{
+       text-align: center;
+       color: #00008b;
+       font-size: 10pt;
+       padding-top: 2pt;
+
+
+}
+
+.search_field
+{
+     font-family: sans-serif;
+     font-size: 10pt;
+     width: 200pt;
+
+}
+
+.search_icon
+{
+    background:url(search.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+.search_label
+{
+    text-align: center;
+    color: #00008b;
+    font-size: 12pt;
+}
+
+.post_field
+{
+    font-family: sans-serif;
+    color: #5a78cd;
+    font-size: 12pt;
+    width: 250pt;
+
+}
+
+.post_odd
+{
+    font-family: sans-serif;
+    color: #159f6b;
+    font-size: 12pt;
+
+    font-weight: bold;
+    text-align: left;
+}
+
+.post_even
+{
+    font-family: sans-serif;
+    color: #e26089;
+    font-size: 12pt;
+
+    font-weight: bold;
+    text-align: left;
+
+}
+.comment
+{
+    font-family: sans-serif;
+    color: #8944cc;
+    font-size: 12pt;
+
+    font-weight: bold;
+    text-align: left;
+}
+-->

@@ -1,98 +1,124 @@
-<h2> <%= link_to 'Home', :controller => 'homes',:action =>'index' %></h2>
-<%=@posts_from_home.content%>
-<h3>Posted by: <%= User.find(@posts_from_home.user_id).username%>     </h3>
-<h4> Category: <%=Category.find(@posts_from_home.category_id).name %>   </h4>
-  <p class="byline"><%= time_ago_in_words(@posts_from_home.created_at)%> ago</p>
-<% if session[:user_id] %>
-    <% if @posts_from_home.user_id==session[:user_id].to_s %>
+<%= stylesheet_link_tag "homes" %>
+<%= stylesheet_link_tag "leftlinks" %>
 
-            <% if @edit_post_mode == "1"%>
-                <%= form_tag( :controller => 'posts', :action => 'update_post',:post_id_from_view => @posts_from_home.id ) do %>
-                <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
-                <%= text_area_tag(:edit_post,@posts_from_home.content, :size => "50x3" )  %>
-                <%= select(:category_to_edit,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
-                <%= submit_tag("Edit Post") %>
-                <% end %>
-            <%else%>
-            <%= h link_to "Edit Post", :edit_post => "set",:post_id_from_view => @posts_from_home.id %>
+<div align="center" class="divhome" id="home" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+  <div class="link_to_home" id="home_header">
+    <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
 
-        <%end%>
+    <h2 text-align-last = "center" > <%= link_to 'Home', :controller => 'homes',:action =>'index' %></h2>
+    <div class="divhome">
 
-    <%end%>
-    <% if session[:user_id] %>
+      <p class="post_odd"> <%=@posts_from_home.content%>
+      <p class = "head3">Posted by: <%= User.find(@posts_from_home.user_id).username%>   &nbsp;&nbsp;
+        Category: <%=Category.find(@posts_from_home.category_id).name %>  &nbsp;&nbsp;
+        <%= time_ago_in_words(@posts_from_home.created_at)%> ago</p>
+      </p>
 
-        <% if @posts_from_home.user_id==session[:user_id].to_s  || User.find(session[:user_id]).role == "1" %>
-             <%= h link_to "Delete Post",:delete_post => "delete_post",:post_id_from_view => @posts_from_home.id%>
-            <%end%>
-    <%end%>
-
-    <%=link_to "Vote Post",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
-<script type="text/javascript">
-    function newPopupPost(){
-        var alertText = '<%= ( Vote.user_display_post(@posts_from_home.id)) %>';
-        if(alertText.length > 0){
-            alert(alertText);
-        }
-    }
-</script><a href="JavaScript:newPopupPost();"><%= Vote.vote_display_post(@posts_from_home.id,User.find(session[:user_id]).username)%></a>
-<%end%>
-
-  <% comments_to_populate(@posts_from_home.id).each{|comments| %>
-    </br></br>
-     <%=comments.comment %>
-    Commented by: <%=User.find_by_id(comments.user_id).username%>
-        <p class="byline"><%= time_ago_in_words(comments.created_at)%> ago</p>
-
-    <script type="text/javascript">
-                function newPopup(){
-            var alertText = '<%= ( Vote.user_display_comment(comments.id)) %>';
-            if(alertText.length > 0){
-                alert(alertText);
-            }
-        }
-    </script>
-    <% if session[:user_id] %>
-
-        <%=link_to "Vote Comment",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
-    <a href="JavaScript:newPopup();"><%= Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%></a>
-    <% if comments.user_id ==  session[:user_id].to_s%>
-
-        <% if @edit_comment_mode == "1"%>
-        <%= form_tag( :controller => 'posts', :action => 'update_comment',:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id ) do %>
-             &nbsp;&nbsp; &nbsp;&nbsp;
-            <%= text_area_tag(:edit_comment,comments.comment, :size => "50x3" )  %>
-            <%= submit_tag("Edit Comment") %>
-        <% end %>
-             <%else%>
-        <%= h link_to "Edit Comment", :edit_comment => "set",:post_id_from_view => @posts_from_home.id %>
-
-        <%end%>
-
-        <%end%>
-    <%end%>
-    <% if session[:user_id] %>
-        <% if comments.user_id ==  session[:user_id].to_s ||  User.find(session[:user_id]).role == "1" %>
-        <%= h link_to "Delete Comment",:delete_comment => "delete_comment",:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id %>
-       <%end%>
-        <%end%>
-
-<% } %>
-
-
-  <table width=100% height =100>
-    <tr class="row-a" width =100%>
-      <td class="first" width =100%>
+      <p class="head3" text-align-last = "left">
         <% if session[:user_id] %>
-      <%= form_tag(:controller => 'posts', :action => "comment_create" ,:postid => @posts_from_home.id) do %>
-            <%= label_tag(:q, "Write a comment") %>    &nbsp;&nbsp; &nbsp;&nbsp;
-            <%= text_area_tag(:create_comment,nil, :size => "50x3", :id=>"create_new_comment" )  %>
-            <%= submit_tag("Create New Comment",:id=>"comment_create") %>
+            <% if @posts_from_home.user_id==session[:user_id].to_s %>
+
+                <% if @edit_post_mode == "1"%>
+                    <%= form_tag( :controller => 'posts', :action => 'update_post',:post_id_from_view => @posts_from_home.id ) do %>
+                        <%= label_tag(:q, "Post Now") %>
+                        <%= text_area_tag(:edit_post,@posts_from_home.content, :size => "50x3" )  %>
+                        <%= select(:category_to_edit,nil, Category.find(:all).collect{|m| [m.name,m.id]}) %>
+                        <%= submit_tag("Edit Post") %> <br/>  &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;
+                    <% end %>
+                <%else%>
+                    <%= h link_to "Edit Post", :edit_post => "set",:post_id_from_view => @posts_from_home.id %>
+
+                <%end%>
+
+            <%end%>
+
+
+
+            <% if session[:user_id] %>
+
+                <% if @posts_from_home.user_id==session[:user_id].to_s  || User.find(session[:user_id]).role == "1" %>
+                    <%= h link_to "Delete Post",:delete_post => "delete_post",:post_id_from_view => @posts_from_home.id%>  <br />
+                <%end%>
+            <%end%>
+
+            <%=link_to "Vote Post",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
+            <script type="text/javascript">
+                function newPopupPost(){
+                    var alertText = '<%= ( Vote.user_display_post(@posts_from_home.id)) %>';
+                    if(alertText.length > 0){
+                        alert(alertText);
+                    }
+                }
+            </script><a href="JavaScript:newPopupPost();"><%= Vote.vote_display_post(@posts_from_home.id,User.find(session[:user_id]).username)%></a>
         <%end%>
-            <% end %>
-      </td>
-    </tr>
-  </table>
-  <br />
+      </p>
+    </div>
+
+    <% comments_to_populate(@posts_from_home.id).each{|comments| %>
+        <div class="divcomment">
+          <p class="comment"><%=comments.comment %>
+            <br/> Commented by: <%=User.find_by_id(comments.user_id).username%>
+          <p class="byline"><%= time_ago_in_words(comments.created_at)%> ago</p>
+
+          <script type="text/javascript">
+              function newPopup(){
+                  var alertText = '<%= ( Vote.user_display_comment(comments.id)) %>';
+                  if(alertText.length > 0){
+                      alert(alertText);
+                  }
+              }
+          </script>
+
+          <% if session[:user_id] %>
+              <h3 class = "head3" text-align-last = "left">
+                <%=link_to "Vote Comment",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
+                <a href="JavaScript:newPopup();"><%= Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%></a>
+                <% if comments.user_id ==  session[:user_id].to_s%>
+
+                    <% if @edit_comment_mode == "1"%>
+                        <%= form_tag( :controller => 'posts', :action => 'update_comment',:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id ) do %>
+                            &nbsp;&nbsp; &nbsp;&nbsp;
+                            <%= text_area_tag(:edit_comment,comments.comment, :size => "50x3" )  %>
+                            <%= submit_tag("Edit Comment") %>
+                        <% end %>
+                    <%else%>
+                        <%= h link_to "Edit Comment", :edit_comment => "set",:post_id_from_view => @posts_from_home.id %>
+
+                    <%end%>
+
+                <%end%>
+          <%end%>
+
+
+          <% if session[:user_id] %>
+              <% if comments.user_id ==  session[:user_id].to_s ||  User.find(session[:user_id]).role == "1" %>
+                  <%= h link_to "Delete Comment",:delete_comment => "delete_comment",:post_id_from_view => @posts_from_home.id,:comment_id_from_view => comments.id %>
+              <%end%>
+          <%end%>
+          </h3>
+          </p>
+        </div>
+    <% } %>
+
+
+    <table width=100% height =100>
+      <tr class="row-a" width =100%>
+        <td class="first" width =100%>
+          <% if session[:user_id] %>
+              <%= form_tag(:controller => 'posts', :action => "comment_create" ,:postid => @posts_from_home.id) do %>
+                  <%= label_tag(:q, "Write a comment:", :class => "search_label") %>
+                  <%= text_area_tag(:create_comment,nil, :size => "50x1", :class => "post_field" ,:id=>"create_new_comment")  %>
+                  <%= submit_tag("Create New Comment",:id=>"comment_create") %>
+              <%end%>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+    <br />
+
+  </div>
+</div>
+</div>
 
 
 

@@ -1,6 +1,14 @@
-<h1>Editing category</h1>
+<%= stylesheet_link_tag "homes" %>
+<%= stylesheet_link_tag "leftlinks" %>
 
-<%= render 'form' %>
+<div align="center" class="divhome" id="home">
+  <div class="link_to_home" id="home_header">
+    <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
+    <h2 class = "head2s">Edit Category</h2>
 
-<%= link_to 'Show', @category %> |
-<%= link_to 'Back', categories_path %>
+    <%= render 'form' %>
+
+    <%= link_to 'Show', @category %> |
+    <%= link_to 'Back', categories_path %>
+  </div>
+</div>

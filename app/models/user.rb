@@ -42,8 +42,6 @@ class User < ActiveRecord::Base
   def match_password(login_password="")
     Rails.logger.info('LOGGED FAILED',login_password )
     self.encrypted_password ==login_password
-    Rails.logger.info('LOGGED FAILED',encrypted_password )
-
   end
 end
 

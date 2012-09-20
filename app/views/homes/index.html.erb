@@ -1,58 +1,69 @@
-<div id="home">
-  <div id="home_header">
-    <h1 id="logo_text">BACKCHANNEL APPLICATION</h1>
-    <div id="links_home">
-      <%= flash[:notice] if flash[:notice]%>
-      <p> <% if !session[:user_id] %>
-            <%=h link_to "Log In", :controller => 'session', :action => "login" %>
-            <%=h link_to "Sign Up" , :controller => 'users', :action => 'new' %>
-        <% else %>
+<%= stylesheet_link_tag :all %>
 
-            <%=h "Welcome #{ User.find(session[:user_id]).username}!" %>
-            <%= link_to "Logout", :controller => 'session', :action => 'logout' %>
-        <% end %>
+<div align="center" class="divhome" id="home">
+  <div class="link_to_home" id="home_header">
+    <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
+    <div id="links_home">
+
+      <% if !session[:user_id] %>
+    <p class="links" align="center">
+        <%=h link_to "Log In", :controller => 'session', :action => "login", :class => "links" %>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <%=h link_to "Sign Up" , :controller => 'users', :action => 'new' , :class => "links" %>
       </p>
+      <% else %>
+      <p align="center">
+      <h2 class="welcome_head"><%=h "Welcome #{ User.find(session[:user_id]).username}!" %>
+        <%=h link_to "Logout", :controller => 'session', :action => 'logout', :class => "logout"  %> </h2>
+      </p>
+      <% end %>
+
     </div>
 
-    <%= form_tag(:controller => 'homes', :action => "search_post") do %>
-        <%= label_tag(:q, "Search") %>    &nbsp;&nbsp; &nbsp;&nbsp;
-        <%= text_field_tag(:search, nil , :size => "50x1" )  %>
-        <%= submit_tag("Search") %>
-    <% end %>
+    <p class="search" >
+      <%= form_tag(:controller => 'homes', :action => "search_post") do %>
+          <%= label_tag(:q, "Search:", :class => "search_label") %>&nbsp;
+          <%= text_field_tag(:search, nil , :class => "search_field") %>
+          <%= submit_tag("", :class => "search_icon") %>
+      <% end %>
+    </p>
   </div>
-
 
   <body>
 
   <div id="post_div">
 
-    <table width=100% height =100>
-    <tr class="row-a" width =100%>
-      <td class="first" width =100%>
-        <% if session[:user_id] %>
+                <p class="search" > <% if session[:user_id] %>
+                  <%= form_tag(:controller => 'homes', :action => "post_create") do %>
+                      <%= label_tag(:q, "Post Now:", :class => "search_label") %>&nbsp;&nbsp;
+                      <%= text_area_tag(:create_post,nil, :size => "50x3", :class => "post_field",:id => "create_post_new" )  %>
+                      </br>  Category  <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]},{},:id =>'select_category')%>
+                      <%= submit_tag("Create New Post",:id=>"create_new_post") %>
+                  <% end %>
+              <% end %>
+            </p>
 
-      <%= form_tag(:controller => 'homes', :action => "post_create") do %>
-              <%= label_tag(:q, "Post Now") %>    &nbsp;&nbsp; &nbsp;&nbsp;
-              <%= text_area_tag(:create_post, nil,:id => "create_post_new")  %>
-                Category  <%= select(:category_to_pass,nil, Category.find(:all).collect{|m| [m.name,m.id]},{},:id =>'select_category')%>
-             <%= submit_tag("Create New Post",:id=>"create_new_post") %>
-          <% end %>
-            <%end  %>
-      </td>
-    </tr>
-  </table>
+    <% @posts_to_display.each_with_index do |posts| %>
 
-    <% @posts_to_display.each{|posts| %>
-        <h2 class="title"><%= link_to "Go to Complete post", :controller => 'posts', :action => 'index',:post_id_from_view => posts.id%></h2>
-        <%= posts.content%>
+        <div class="divhome">
+          <p class ="<%= cycle("post_odd", "post_even") -%>"  margin-left = "5pt" >
+            <%= posts.content %>
 
-        <h3>Posted by: <%= User.find(posts.user_id).username%>   </h3>
-          <p class="byline"><%= time_ago_in_words(posts.created_at)%> ago</p>
-    <% } %>
+          <p class="head3" margin-left = "50pt">Posted by: <%= User.find(posts.user_id).username%>
+            <%= time_ago_in_words(posts.created_at)%> ago</p>
+          <h3 class="head3" text-align-last = "left" margin-left = "50pt">
+            <%= link_to "Go to Complete post", :controller => 'posts', :action => 'index',:post_id_from_view => posts.id%></h3>
+          </p>
+        </div>
+    <% end %>
+
   </div>
+
+
   <div id="admin_interface">
     <%= flash[:notice] if flash[:notice]%>
-    <p> <% if @mode == "1" %>
+    <p class="admin_para">
+      <% if @mode == "1" %>
           <%=h link_to "Go to Admin Interface", :controller => 'admins', :action => 'index' %>
       <% else %>
           <%=h "Login as admin to navigate to Admin Interface" %>
@@ -60,7 +71,9 @@
     </p>
   </div>
   </body>
-  <div id="footer">
-    <p> &copy; 2012 <strong>Backchannel Application</strong> | Design by: Ankita, Deepali and Radhika</p>
-  </div>
-   </div>
+
+  <p class="pfooter" id="footer">
+    Copy 2012 <strong>Backchannel Application</strong> | Designed by: Ankita, Deepali and Radhika</p>
+
+
+</div>

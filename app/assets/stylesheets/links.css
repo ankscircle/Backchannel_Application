@@ -1,0 +1,4 @@
+A:link {color:#9932cc; text-decoration: underline; text-align-last: center; font-size: 12pt; font-weight: normal; }
+A:visited { color:#9932cc; text-decoration: underline; text-align: center; font-size: 12pt; font-weight: normal; }
+A:active{ color:#00008b ;text-decoration: underline; text-align-last: center; font-size: 12pt; }
+A:hover { color:#00008b ;background-color: #ffffff; text-decoration: none; font-size: 12pt; }

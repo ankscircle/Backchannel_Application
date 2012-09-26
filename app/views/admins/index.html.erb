@@ -3,19 +3,26 @@
 <div align="center" class="divhome" id="home">
   <div class="link_to_home" id="home_header">
     <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
+    <h2 text-align-last = "center" > <%= link_to 'Home Page', :controller => 'homes',:action =>'index' %></h2>
+
 
     <h2 class="welcome_head"><%=h "Welcome #{ User.find(session[:user_id]).username}!" %> </h2>
     <h2 class="head2">Listing All the Users</h2>
 
     <% @list_users.each {|user| %>
         <h3 class="head3">
-        <%= link_to user.username, :controller => 'admins',:action=>'edit',:user_show_report => user.id%>
+          <%= link_to user.username, :controller => 'admins',:action=>'edit',:user_show_report => user.id%>
           </br> <%=user.email %>
           </br> <%=user.encrypted_password %>
-          </br>
+          </br>  <%if (user.role).to_s == "1"%>
+              User is presently admin
+          <%else%>
+              User is not an admin
+          <%end%>
+          &nbsp;&nbsp;&nbsp;&nbsp;
           <a class="links" text-align-last= "right" font="10pt" > <td><%= link_to "Destroy User", :user_deleted => user.id, :destroy_user => "1" %></td> &nbsp;&nbsp;
-            <td><%= link_to "Assign Role", :assign_role_user => user.id,:assign_role => "1" %></td> &nbsp;&nbsp;
-            <td><%= link_to "Revoke Role", :revoke_role_user => user.id,:revoke_role => "1" %></td>  </a>
+            <td><%= link_to "Assign Admin Role", :assign_role_user => user.id,:assign_role => "1" if user.role == "0" %> </td> &nbsp;&nbsp;
+            <td><%= link_to "Revoke Admin Role", :revoke_role_user => user.id,:revoke_role => "1" if user.role == "1" %></td>  </a>
           <p class="byline"><%= nil %> </p> </h3>
     <% } %>
     <p class="byline"><%= nil %> </p>

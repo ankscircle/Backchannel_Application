@@ -50,7 +50,7 @@ class Vote < ActiveRecord::Base
     @voted_post  = 1
     @return_string = ""
     @vote_list =  Vote.where(:post_flag => "1",:pc_vote_id =>post_id_for_votes)
-    @vote_list.each{|v| @return_string << '\n' << User.find((Post.find(post_id_for_votes)).user_id).username}
+    @vote_list.each{|v| @return_string << '\n' << User.find(v.user_id).username}
     @return_string
   end
   def self.check_if_user_already_voted(username_from_view, post_id_to_check_vote)

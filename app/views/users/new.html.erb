@@ -18,8 +18,9 @@
       <p> Password:</br> <%= f.password_field :password, :id => "password"%></p>
 
       <p> Password Confirmation:</br> <%= f.password_field :password_confirmation, :id => "passwordconf"%> </p>
-
-      <p> Admin: </br> <%= f.check_box :role, :id => "role"  %></p>
+      <% if false %>
+          <p> Admin: </br> <%= f.check_box :role, :id => "role"  %></p>
+      <%end%>
       <%= f.submit :Signup, :id => "signup" %>
 
 <% end %>

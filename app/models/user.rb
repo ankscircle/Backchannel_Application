@@ -12,11 +12,15 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true #password_confirmation attr
   validates_length_of :password, :in => 6..20, :on => :create
 
+
   attr_accessible :username, :email, :password, :password_confirmation , :role,:encrypted_password
+
 
   def encrypt_password
     if password.present?
       self.encrypted_password = password
+      self.role = "0"
+
     end
   end
 

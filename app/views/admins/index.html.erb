@@ -20,9 +20,11 @@
               User is not an admin
           <%end%>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <a class="links" text-align-last= "right" font="10pt" > <td><%= link_to "Destroy User", :user_deleted => user.id, :destroy_user => "1" %></td> &nbsp;&nbsp;
+          <% if user.username != "admin" %>
+        <a class="links" text-align-last= "right" font="10pt" > <td><%= link_to "Destroy User", :user_deleted => user.id, :destroy_user => "1" %></td> &nbsp;&nbsp;
             <td><%= link_to "Assign Admin Role", :assign_role_user => user.id,:assign_role => "1" if user.role == "0" %> </td> &nbsp;&nbsp;
             <td><%= link_to "Revoke Admin Role", :revoke_role_user => user.id,:revoke_role => "1" if user.role == "1" %></td>  </a>
+              <%end%>
           <p class="byline"><%= nil %> </p> </h3>
     <% } %>
     <p class="byline"><%= nil %> </p>

@@ -5,6 +5,7 @@
   <div class="link_to_home" id="home_header">
     <h1 class= "head1" id="logo_text">BACKCHANNEL APPLICATION</h1>
     <div id="links_home">
+      <h2 text-align-last = "center" > <%= link_to 'Home Page', :controller => 'homes',:action =>'index' %></h2>
 
       <% if !session[:user_id] %>
     <p class="links" align="center">
@@ -43,10 +44,15 @@
                   <% end %>
               <% end %>
             </p>
+    <% if @search_hint == "true"%>
+        <p class ="head3"  margin-left = "5pt" >
+          Search Results
+        </p>
+    <%end%>
 
     <% @posts_to_display.each_with_index do |posts| %>
 
-        <div class="divhome">
+            <div class="divhome">
           <p class ="<%= cycle("post_odd", "post_even") -%>"  margin-left = "5pt" >
             <%= posts.content %>
 

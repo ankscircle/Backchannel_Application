@@ -13,8 +13,9 @@ class HomesController < ApplicationController
       @user = User.find(session[:user_id]).username
                                                     #puts "mode: #{@mode}"
     end
+    @search_hint = "false"
 
-   # @search_results = "init"
+#@search_results = "init"
 # @new_category = Category.new(:name => "Sports")
 # @new_category.save
 #@new_category1 = Category.new(:name => "Science")
@@ -30,6 +31,7 @@ class HomesController < ApplicationController
     Rails.logger.info("Searching....")
     @posts_to_display1 = Post.search_all_post(params[:search])
    @posts_to_display = Post.find(@posts_to_display1)
+    @search_hint = "true"
     render :action => 'index'
 end
 

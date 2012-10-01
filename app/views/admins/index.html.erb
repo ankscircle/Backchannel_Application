@@ -8,6 +8,7 @@
 
     <h2 class="welcome_head"><%=h "Welcome #{ User.find(session[:user_id]).username}!" %> </h2>
     <h2 class="head2">Listing All the Users</h2>
+    (To see user reports, click on usernames)
 
     <% @list_users.each {|user| %>
         <h3 class="head3">

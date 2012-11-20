@@ -40,8 +40,10 @@
                     <%= h link_to "Delete Post",:delete_post => "delete_post",:post_id_from_view => @posts_from_home.id%>  <br />
                 <%end%>
             <%end%>
+            <% if @posts_from_home.user_id !=  session[:user_id].to_s%>
 
-            <%=link_to "Vote Post",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
+      <%=link_to "Vote Post",:post_id_from_view => @posts_from_home.id, :vote_bool => "1" %>
+                <%end%>
             <script type="text/javascript">
                 function newPopupPost(){
                     var alertText = '<%= ( Vote.user_display_post(@posts_from_home.id)) %>';
@@ -71,7 +73,9 @@
 
           <% if session[:user_id] %>
               <h3 class = "head3" text-align-last = "left">
-                <%=link_to "Vote Comment",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
+                <% if comments.user_id !=  session[:user_id].to_s%>
+              <%=link_to "Vote Comment",:post_id_from_view => @posts_from_home.id, :vote_bool => "2",:comment_id_for_new => comments.id %>
+                    <%end%>
                 <a href="JavaScript:newPopup();"><%= Vote.vote_display_comment(comments.id,User.find_by_id(session[:user_id]).username)%></a>
                 <% if comments.user_id ==  session[:user_id].to_s%>
 

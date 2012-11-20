@@ -9,8 +9,7 @@ two:
   comment: MyString
   post: one
   user: two
-
-  <% (1 .. 1000).each do |i| %>
+<% (1 .. 1000).each do |i| %>
     fix_<%= i %>:
     comment: comment<%= i%>
     post_id: <%=i%>

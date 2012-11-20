@@ -3,9 +3,9 @@ require 'spec_helper'
 
 describe "Comments" do
   before :all do
-    @user2 = User.new(:username => 'batman',:email => 'batman@gmail.com',:password => "batman123",:role => "0")
+    @user2 = User.new(:username => 'superman',:email => 'superman@gmail.com',:password => "batman123",:role => "0")
     @user2.save!
-    @user3 = User.new(:username => 'joker',:email => 'joker@gmail.com',:password => "joker1234",:role => "1")
+    @user3 = User.new(:username => 'greenlantern',:email => 'greenlantern@gmail.com',:password => "joker1234",:role => "1")
     @user3.save!
     @category = Category.new(:name => "Play")
     @category.save!
@@ -30,6 +30,20 @@ describe "Comments" do
   it "should delete comments and votes which are related to a particular user" do
     Comment.del_comments_by_user(@user2.id)
     Comment.exists?(@new_comment1.id).should be_false
-
+  end
+  it "should fail to create new comment because of validation of comment" do
+    @new_comment2 = Comment.new(:post_id => @post1.id,:user_id => @user2.id)
+    @new_comment2.save
+    @new_comment2.valid?.should be_false
+  end
+  it "should fail to create new comment because of validation of post id" do
+    @new_comment2 = Comment.new(:comment=> "I still have to watch it :( ", :user_id => @user2.id)
+    @new_comment2.save
+    @new_comment2.valid?.should be_false
+  end
+  it "should fail to create new comment because of validation of user id" do
+    @new_comment2 = Comment.new(:comment=> "I still have to watch it :( ",:post_id => @post1.id)
+    @new_comment2.save
+    @new_comment2.valid?.should be_false
   end
 end

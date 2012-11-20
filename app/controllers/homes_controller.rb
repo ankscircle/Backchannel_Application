@@ -15,11 +15,15 @@ class HomesController < ApplicationController
     end
     @search_hint = "false"
 
-#@search_results = "init"
-# @new_category = Category.new(:name => "Sports")
-# @new_category.save
-#@new_category1 = Category.new(:name => "Science")
-#@new_category1.save
+    #@new_admin = User.new(:username => "admin", :password => "admin123",:email => "admin@gmail.com",:role => "1")
+    #@new_admin.save
+
+    #@search_results = "init"
+    #@new_category = Category.new(:name => "Sports")
+    # @new_category.save
+    #@new_category1 = Category.new(:name => "Science")
+    #@new_category1.save
+
 
     @posts_to_display = Post.get_all_the_posts
     @categories_to_populate = Category.all

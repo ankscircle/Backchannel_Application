@@ -73,7 +73,7 @@ class PostsController < ApplicationController
 
   def vote_post
     Rails.logger.info('Came to create new vote')
-    if(Post.find(params[:post_id_from_view]).user_id !=(User.find(session[:user_id])).id )
+    if(User.find((Post.find(params[:post_id_from_view])).user_id).username != (User.find(session[:user_id])).username)
       if(Vote.check_if_user_already_voted((User.find(session[:user_id])).username, params[:post_id_from_view])== 1)
         Post.modified_post(params[:post_id_from_view])
         @new_vote = Vote.new(:pc_vote_id =>params[:post_id_from_view],:post_flag =>"1", :user_id => session[:user_id])

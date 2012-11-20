@@ -50,6 +50,20 @@ describe "Vote" do
       Vote.exists?(@new_vote2.id).should be_false
   end
 
-
+  it "should check for validation of parent comment/post and not save vote" do
+    @new_vote3 = Vote.new(:post_flag =>"0", :user_id => @user3.id)
+    @new_vote3.save
+    @new_vote3.valid?.should be_false
+  end
+  it "should check for validation of user id who voted and not save vote" do
+    @new_vote3 = Vote.new(:pc_vote_id =>@new_comment.id,:post_flag =>"0")
+    @new_vote3.save
+    @new_vote3.valid?.should be_false
+  end
+  it "should check for validation of flag and not save vote" do
+    @new_vote3 = Vote.new(:pc_vote_id =>@new_comment.id, :user_id => @user3.id)
+    @new_vote3.save
+    @new_vote3.valid?.should be_false
+  end
 
 end
